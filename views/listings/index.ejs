@@ -1,17 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airbnb</title>
-</head>
-<body>
+
   <% layout("/layouts/boilerplate") %>
-    <h3>All Listings</h3>
+<div id="filters">
+  
+    <div class="filter">
+        <a href="/listings?category=trending">
+          <div>
+            <i class="fa-solid fa-fire"></i>
+        </div>
+        <p>Trending</p>
+        </a>
+    </div>
+
+     <div class="filter">
+       <a href="/listings?category=bed"> 
+        <div>
+            <i class="fa-solid fa-bed"></i>
+        </div>
+        <p>Bed</p></a>
+    </div>
+
+  <div class="filter">
+       <a href="/listings?category=iconic">
+         <div>
+            <i class="fa-solid fa-mountain-city"></i>
+        </div>
+         <p>Iconic</p>
+       </a>
+    </div>
+
+    <div class="filter">
+       <a href="/listings?category=mountain">
+         <div>
+            <i class="fa-solid fa-mountain"></i>
+        </div>
+        <p>Mountain</p>
+       </a>
+    </div>
+
+  <div class="filter">
+        <a href="/listings?category=pool">
+          <div>
+            <i class="fa-solid fa-person-swimming"></i>
+        </div>
+        <p>Pool</p>
+        </a>
+    </div>
+
+   <div class="filter">
+      <a href="/listings?category=camping">
+          <div>
+       <i class="fa-solid fa-mountain-sun"></i>
+        </div>
+        <p>Camping</p>
+      </a>
+    </div>
+
+    <div class="filter">
+      <a href="/listings?category=farms">
+          <div>
+           <i class="fa-solid fa-cow"></i>
+        </div>
+        <p>Farms</p>
+      </a>
+    </div>
+
+   <div class="filter">
+       <a href="/listings?category=snow">
+         <div>
+          <i class="fa-solid fa-snowflake"></i>
+        </div>
+        <p>Snow</p>
+       </a>
+    </div>
+
+  <div class="filter">
+     <a href="/listings?category=desert">
+         <div>
+          <i class="fa-solid fa-ice-cream"></i>
+        </div>
+        <p>Desert</p>
+     </a>
+    </div>
+ 
+   <div class="tax-togle">
+    <div class="form-check-reverse form-switch">
+  <input class="form-check-input"
+   type="checkbox"
+    role="switch" 
+   id="switchCheckDefault">
+  <label class="form-check-label" 
+  for="switchCheckDefault">Disply  total  after taxes </label>
+</div>
+</div>
+</div>
+
+
     <!-- <form method="GET" action="/listings/new">
       <button>Create New Listing</button>
     </form> -->
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 ">
       <% if (allListings.length === 0) { %>
         
         <div class="alert alert-info" role="alert">
@@ -23,7 +110,10 @@
 
     <div class="card col listing-card" >
   <% if (listing.image && listing.image.url) { %>
-    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+    <img src="<%= listing.image.url %>" 
+    class="card-img-top"
+     alt="listing_image"
+      style="height: 20rem;">
     
   <% } else { %>
     <img src="https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" class="card-img-top" alt="default_image">
@@ -32,13 +122,37 @@
   <div class="card-body">
     <p class="card-text">
       <b><%= listing.title %></b><br>
-      &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
+   &#8377; 
+<span class="price" data-base="<%= listing.price %>">
+  <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
+</span>
+/Night
+<i class="class-info" style="display:none;"> (incl. 18% GST)</i>
+
     </p>
   </div>
 </div>
 </a>
  <% } %>
 </div>
+<script>
+ let taxSwitch = document.getElementById('switchCheckDefault');
+taxSwitch.addEventListener("change", () => {
+  let prices = document.getElementsByClassName('price');
+  let taxInfos = document.getElementsByClassName('class-info');
 
-</body>
-</html>
+  for (let i = 0; i < prices.length; i++) {
+    let basePrice = parseFloat(prices[i].getAttribute('data-base'));
+
+    if (taxSwitch.checked) {
+      let withTax = Math.round(basePrice * 1.18);
+      prices[i].innerText = withTax.toLocaleString("en-IN");
+      taxInfos[i].style.display = "inline";
+    } else {
+      prices[i].innerText = basePrice.toLocaleString("en-IN");
+      taxInfos[i].style.display = "none";
+    }
+  }
+});
+
+</script>

@@ -19,7 +19,7 @@ body{
 .listing-card{
     border: none !important;
     margin-bottom: 2rem;
-   
+   margin-left: 1rem;
 }
 .card-img-top{
     border-radius: 1rem!important;
@@ -28,10 +28,11 @@ body{
     object-fit: cover!important;
 }
 .card-body{
-    padding: 0rem!important;
+    padding: 1rem!important;
 }
 .card-text p{
 font-weight: 400!important;
+margin-left: 1rem;
 }
 .listing-link{
     text-decoration: none!important;
@@ -62,7 +63,7 @@ font-weight: 400!important;
     justify-content: center;
     align-items: space-evenly;
     width: 100vw;
-    position: fixed;
+    position: static;
     bottom: 0;
     left: 0;
     margin-left: 0;
@@ -108,4 +109,99 @@ font-weight: 400!important;
 };
 .fa-square-facebook{
     background-color: #fe424d;
+}
+/* mpa */
+#map {
+    width: 100%px;
+    height: 400px;
+}
+
+    #filters{
+      display: flex;
+      flex-wrap: wrap; 
+    }
+    .filter{
+      text-align: center;
+      margin-left: 4rem;
+      opacity: 0.7;
+      font-size: 1rem;
+       transition: all 0.3s ease;
+    }
+    .filter:hover{
+      opacity: 1;
+      cursor: pointer;
+        transform: scale(1.1);
+    }
+   .tax-togle{
+    margin-left:1rem;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: 3rem;
+    padding: 0.7rem;
+    margin-left: 4rem;
+   }
+   .class-info{
+   display: none;
+    color: gray;
+   }
+.btn-search{
+    background-color: #fe424d;
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 5px 15px;
+     margin-left: 10px;
+}
+.btn-search i{
+   display: inline;
+   margin-right: 0.5rem;
+}
+.SEARCH{
+     border-radius: 25px;
+     border: 2px solid #fe424d;
+     padding: 5px 15px;
+     color: #fe424d;
+     background-color: white;
+        font-size: 1.1rem;
+        text-align: center;
+}
+.book{
+    background-color: rgb(19, 109, 200);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-top: 1rem;
+    margin-top: 1rem;
+    margin-left: 35rem;
+}
+ .book a{
+  text-decoration: none;     /* Removes underline */
+  color: inherit;            /* Inherits color from parent (e.g. card text color) */
+
+}
+.filter a{
+    text-decoration: none;
+      color: inherit;  
+}
+.mb-3{
+    margin-left: 8rem;
+    margin-right: 8rem;
+}
+.mb-3 :hover{
+    border-color: #fe424d;
+}
+.btn-success{
+    border: none;
+    padding: 10px 20px;
+    margin-left: 8rem;
+    margin-top: 1rem;
+}
+.btn-success:hover{
+    background-color: #a76e28;
+    color: white;
+}
+.col-md-3{
+    margin-left: 8rem;
 }

@@ -1,0 +1,2 @@
+- [ ] Update rating.css to include styles for starability-slot class used in show.ejs
+- [ ] Test the rating display in the browser

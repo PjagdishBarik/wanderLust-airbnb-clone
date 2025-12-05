@@ -1,88 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airbnb</title>
-</head>
-<body>
-  <%=layout("/layouts/boilerplate")%>
-    <h3>Create a New Listing</h3>
-<div class="row">
-  <div class="col-8 offset-2">
-    
-    <form method="POST" action="/listings"novalidate class="needs-validation">
+<% layout("/layouts/boilerplate") %>
 
-     <div class="mb-3">
-       <label for="title" class="form-label">Title</label>
-      <input name="listing[title]" 
-      placeholder="enter title" 
-      type="text"
-      class="form-control" required/>
-      <div class="valid-feedback">
-        Titel looks good!
-      </div>
-     </div>
-      <br>
+<div class="container mt-5 mb-5">
+  <h1 class="text-center mb-4">Add New Listing</h1>
 
-  <div class="mb-3">
-    <label for="description" class="form-label">Description</label> 
-      <textarea name="listing[description]"  class="form-control" required
-     ></textarea>
-      <div class="invalid-feedback">
-       Enter the valid description
-      </div>
-  </div>
-
-      <br>
-  <div class="mb-3">
-    <label for="image" class="form-label">Image</label>
-      <input name="listing[image]"
-      placeholder="enter image URL/Link"
-      type="text" class="form-control" />
-  </div>
-      <br>
-<div class="row">
-  <div class="mb-3 col-md-4">
-    <label for="price" class="form-label">price</label>
-      <input name="listing[price]"
-       placeholder="enter price" 
-      class="form-control"required/> 
-
-       <div class="invalid-feedback">
-       Enter the valid price
-      </div>
-  </div>
-      <br >
-
-  <div class="mb-3 col-md-8">
-    <label for="country" class="form-label">Country</label>
-      <input name="listing[country]"
-       placeholder="enter country" 
-       type="text"class="form-control" required/>
-        <div class="invalid-feedback">
-       Enter the valid contry name
-      </div>
-  </div>
-</div>
-  
-      <br >
-
-  <div class="mb-3">
-<label for="location" class="form-label">Location</label>
-      <input name="listing[location]"
-      placeholder="enter location"
-      type="text" class="form-control" required />
-        <div class="invalid-feedback">
-       Enter the valid location
-      </div>
-  </div>
-      <br >
-      <button type="submit" class="btn  add-btn">Add</button>
-      <br>
-      <br>
-      </div>
-    </form>
+  <form action="/listings" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded bg-light">
+    <div class="mb-3">
+      <label for="title" class="form-label fw-bold">Title</label>
+      <input type="text" class="form-control" id="title" name="listing[title]" required>
     </div>
-</body>
-</html>
+
+    <div class="mb-3">
+      <label for="description" class="form-label fw-bold">Description</label>
+      <textarea class="form-control" id="description" name="listing[description]" rows="3" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label fw-bold">Price (₹/Night)</label>
+      <input type="number" class="form-control" id="price" name="listing[price]" min="0" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label fw-bold">Location</label>
+      <input type="text" class="form-control" id="location" name="listing[location]" placeholder="City, State" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="country" class="form-label fw-bold">Country</label>
+      <input type="text" class="form-control" id="country" name="listing[country]" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label fw-bold">Upload Image</label>
+      <input type="file" class="form-control" id="image" name="listing[image]" accept="image/*">
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success px-4 py-2">Add Listing</button>
+      <a href="/listings" class="btn btn-secondary px-4 py-2 ms-2">Cancel</a>
+    </div>
+  </form>
+</div>
