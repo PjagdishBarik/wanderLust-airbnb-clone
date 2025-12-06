@@ -36,10 +36,10 @@ async function main() {
 main()
   .then(() => {
     console.log("Connected to Cloud Database 🧠");
-    
-    // ONLY start the server if the DB connects successfully
-    app.listen(8085, () => {
-      console.log("Server is listening on port 8085");
+
+    const PORT = process.env.PORT || 8085; // Render will inject PORT automatically
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
