@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== "production") {
-  require('dotenv').config();
+  require("dotenv").config();
 }
 
 const express = require("express");
@@ -19,25 +19,29 @@ const listingsRoutes = require("./ROUTES/Listing.js");
 const reviewsRoutes = require("./ROUTES/Reviews.js");
 const userRoutes = require("./ROUTES/user.js");
 
+/* 🔴🔴🔴 ADD THIS LINE (POINT 1) 🔴🔴🔴 */
+const bookingRoutes = require("./ROUTES/booking.js");
+
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dburl = process.env.ATLASDB_URL;
 
-// DEBUG: Check if URL is loaded (Don't share your console log with password publicly)
 if (!dburl) {
-    console.error("FATAL ERROR: ATLASDB_URL is not defined. Check your .env file.");
-    process.exit(1);
+  console.error("FATAL ERROR: ATLASDB_URL is not defined. Check your .env file.");
+  process.exit(1);
 }
 
 // Database Connection
 async function main() {
-  await mongoose.connect(dburl);
+  await mongoose.connect(dburl, {
+    serverSelectionTimeoutMS: 30000,
+  });
 }
 
 main()
   .then(() => {
     console.log("Connected to Cloud Database 🧠");
 
-    const PORT = process.env.PORT || 8085; // Render will inject PORT automatically
+    const PORT = process.env.PORT || 8085;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
@@ -86,6 +90,7 @@ app.use((req, res, next) => {
 app.use("/listings", listingsRoutes);
 app.use("/listings/:id/reviews", reviewsRoutes);
 app.use("/", userRoutes);
+app.use("/bookings", bookingRoutes);
 
 app.get("/", (req, res) => {
   res.redirect("/listings");

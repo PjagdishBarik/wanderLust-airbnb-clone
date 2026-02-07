@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airbnb</title>
+    <title>Nestify</title>
     <link rel="stylesheet" href="/css/style.css">
     
     <!-- Correct favicon (must be image, not zip) -->
@@ -27,7 +27,9 @@
 </head>
 <body>
    <%- include("../includes/navbar.ejs") %>
-    <div class="container" style="padding-bottom: 10rem;">
+    <div class="container-fluid px-3 px-md-5" 
+    style="padding-bottom: 10rem;">
+
 
         <%- include("../includes/flash.ejs") %>
         <%- body %>

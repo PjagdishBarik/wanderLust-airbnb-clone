@@ -1,4 +1,5 @@
 const Listing = require("../models/listings.js");
+const Booking = require("../models/booking.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapBoxToken });
@@ -15,7 +16,7 @@ module.exports.indexListing = async (req, res) => {
   res.render("listings/index.ejs", { allListings });
 };
 
-// ✅ FIXED NEW CONTROLLER
+//  FIXED NEW CONTROLLER
 module.exports.NewListing = (req, res) => {
   // Pass bookings (empty array to prevent EJS crash)
   res.render("listings/new.ejs", { bookings: [] });
@@ -115,6 +116,24 @@ module.exports.destroyListing = async (req, res) => {
   req.flash("success", "Hotel deleted ⚠️🗑️");
   res.redirect("/listings");
 };
+// 🔍 SEARCH CONTROLLER
+module.exports.searchListing = async (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    return res.redirect("/listings");
+  }
+
+  const allListings = await Listing.find({
+    $or: [
+      { title: { $regex: q, $options: "i" } },
+      { location: { $regex: q, $options: "i" } },
+      { country: { $regex: q, $options: "i" } }
+    ]
+  });
+
+  res.render("listings/index", { allListings, searchQuery: q });
+};
 
 // BOOKING CONTROLLERS
 
@@ -139,17 +158,17 @@ module.exports.createBooking = async (req, res) => {
       return res.redirect("/listings");
     }
 
-    const { guestName, guestAge, checkIn, checkOut, guests, paymentMethod } = req.body;
+    const { guestName, guestAge, checkIn, checkOut, guests } = req.body;
 
     const booking = new Booking({
       listing: id,
       user: req.user._id,
       guestName,
       guestAge,
-      checkIn,
-      checkOut,
-      guests,
-      paymentMethod,
+      checkIn: new Date(checkIn),
+      checkOut: new Date(checkOut),
+      guests: parseInt(guests),
+      paymentMethod: "Card",
     });
 
     await booking.save();
@@ -177,4 +196,21 @@ module.exports.ownerBookings = async (req, res) => {
   const listings = await Listing.find({ owner: req.user._id }).select("_id");
   const bookings = await Booking.find({ listing: { $in: listings } }).populate("listing user");
   res.render("bookings/ownerBookings.ejs", { bookings });
+};
+
+// Delete Booking
+module.exports.deleteBooking = async (req, res) => {
+  const { id } = req.params;
+  const booking = await Booking.findById(id);
+  if (!booking) {
+    req.flash("error", "Booking not found");
+    return res.redirect("/bookings");
+  }
+  if (!booking.user.equals(req.user._id)) {
+    req.flash("error", "You are not authorized to delete this booking");
+    return res.redirect("/bookings");
+  }
+  await Booking.findByIdAndDelete(id);
+  req.flash("success", "Booking deleted successfully");
+  res.redirect("/bookings");
 };

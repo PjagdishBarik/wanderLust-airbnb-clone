@@ -1,37 +1,54 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md border-bottom sticky-top bg-white">
   <div class="container-fluid">
-    <a class="navbar-brand" href=""><i class="fa-solid fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
+
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="/listings">
+      <i class="fa-solid fa-compass"></i>
+      <span class="ms-2 fw-semibold">Explore</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+
+      <!-- CENTER SEARCH BAR -->
+      <div class="mx-auto">
+        <form class="d-flex search-form" role="search" method="GET" action="/listings/search">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search destination"
+            class="search-input"
+            required
+          />
+          <button class="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Search
+          </button>
+        </form>
       </div>
 
- <div class="navbar-nav ms-auto">
-   <form class="d-flex" role="search">
-    
-      <input class=" SEARCH" type="search" placeholder="Search destination"/>
+      <!-- RIGHT NAV LINKS -->
+      <div class="navbar-nav ms-auto align-items-center">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+<!-- <a class="nav-link" href="/listings/new">Airbnb your home</a> -->
 
-      <button class="btn-search" type="submit">
-        <i class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
- </div>
+<% if (currentUser) { %>
+ <a class="nav-link" href="/bookings">Booking Details</a>
+<% } %>
 
-         <div class="navbar-nav ms-auto">
-            <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <a class="nav-link" href="/">Booking Details</a>
 
-        
-          <% if(!currentUser){%>
 
-        <a class="nav-link "  href="/signup"><b>signup</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-       <%}%>
-       <%if(currentUser){%>
-        <a class="nav-link" href="/logout"><b>Log out</b></a>
-            <%}%>
+        <% if(!currentUser){ %>
+          <a class="nav-link fw-semibold" href="/signup">Signup</a>
+          <a class="nav-link fw-semibold" href="/login">Login</a>
+        <% } %>
+
+        <% if(currentUser){ %>
+          <a class="nav-link fw-semibold" href="/logout">Log out</a>
+        <% } %>
       </div>
 
     </div>
