@@ -7,6 +7,6 @@
 - [x] Add showBooking controller function in controller/listing.js
 - [x] Add GET /bookings/:id route in ROUTES/booking.js
 - [x] Create views/bookings/show.ejs view
-- [ ] Add "Booking Details" button in views/bookings/userBookings.ejs
-- [ ] Add "Booking Details" button in views/bookings/ownerBookings.ejs
+- [x] Add "Booking Details" button in views/bookings/userBookings.ejs
+- [x] Add "Booking Details" button in views/bookings/ownerBookings.ejs
 - [ ] Test the functionality
