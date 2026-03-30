@@ -106,7 +106,7 @@
                       <div class="starability-result" data-rating="<%= review.rating %>"></div>
 
                   <p>RAW RATING: <%= review.rating %></p>
-
+                  <p><%= review.comment %></p>
                     </div>
 
                     <% if (currentUser && currentUser._id.equals(review.author._id)) { %>
