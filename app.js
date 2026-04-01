@@ -21,9 +21,9 @@ const userRoutes = require("./ROUTES/user.js");
 
 const bookingRoutes = require("./ROUTES/booking.js");
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-// const dburl = "mongodb://127.0.0.1:27017/wanderlust";
-const dburl = process.env.ATLASDB_URL;
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dburl = process.env.NODE_ENV === 'production' ? process.env.ATLASDB_URL : MONGO_URL;
+
 // Database Connection
 async function main() {
   await mongoose.connect(dburl, {
@@ -33,7 +33,7 @@ async function main() {
 
 main()
   .then(() => {
-    console.log("Connected to Cloud Database 🧠");
+    console.log(process.env.NODE_ENV === 'production' ? "Connected to Cloud Database 🧠" : "Connected to Local Database 🧠");
 
     const PORT = process.env.PORT || 8085;
     app.listen(PORT, () => {

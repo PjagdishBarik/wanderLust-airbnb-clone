@@ -1,12 +1,8 @@
-- [x] Add GET /bookings/:id route in ROUTES/booking.js
-- [ ] Create views/bookings/show.ejs view
-- [ ] Add "Booking Details" button in views/bookings/userBookings.ejs
-- [ ] Add "Booking Details" button in views/bookings/ownerBookings.ejs
-- [ ] Test the functionality
-=======
-- [x] Add showBooking controller function in controller/listing.js
-- [x] Add GET /bookings/:id route in ROUTES/booking.js
-- [x] Create views/bookings/show.ejs view
-- [x] Add "Booking Details" button in views/bookings/userBookings.ejs
-- [x] Add "Booking Details" button in views/bookings/ownerBookings.ejs
-- [ ] Test the functionality
+# MongoDB Connection Fix - Local Setup
+## Steps:
+- [ ] 1. Update app.js to use local MongoDB connection string
+- [ ] 2. Install MongoDB Community Server if not present (`winget install MongoDB.MongoDBAtlas` or download from mongodb.com)
+- [ ] 3. Start MongoDB service (`net start MongoDB` or `mongod`)
+- [ ] 4. Run `node app.js` and verify connection success
+- [ ] 5. Test app (visit http://localhost:8085)
+
