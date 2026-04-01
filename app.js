@@ -22,8 +22,8 @@ const userRoutes = require("./ROUTES/user.js");
 const bookingRoutes = require("./ROUTES/booking.js");
 
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-const dburl = "mongodb://127.0.0.1:27017/wanderlust";
-// const dburl = process.env.ATLASDB_URL;
+// const dburl = "mongodb://127.0.0.1:27017/wanderlust";
+const dburl = process.env.ATLASDB_URL;
 // Database Connection
 async function main() {
   await mongoose.connect(dburl, {
@@ -35,7 +35,7 @@ main()
   .then(() => {
     console.log("Connected to Cloud Database 🧠");
 
-    const PORT = process.env.PORT || 8085;
+    const PORT = process.env.PORT || 8080;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
