@@ -23,7 +23,7 @@ const bookingRoutes = require("./ROUTES/booking.js");
 
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dburl = "mongodb://127.0.0.1:27017/wanderlust";
-
+// const dburl = process.env.ATLASDB_URL;
 // Database Connection
 async function main() {
   await mongoose.connect(dburl, {
