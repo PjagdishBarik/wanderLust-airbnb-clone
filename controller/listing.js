@@ -1,6 +1,11 @@
 const Listing = require("../models/listings.js");
 const Booking = require("../models/booking.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const {
+  inferListingCategory,
+  matchesCategory,
+  normalizeCategory,
+} = require("../utils/listingCategories");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapBoxToken });
 
@@ -10,10 +15,32 @@ if (!mapBoxToken) {
 }
 console.log("Mapbox Token:", mapBoxToken);
 
+function addLikeState(listings, user) {
+  if (!user) {
+    return listings.map((listing) => ({ ...listing.toObject(), isLiked: false }));
+  }
+
+  return listings.map((listing) => {
+    const isLiked = listing.likes.some((like) => like._id.equals(user._id));
+    return { ...listing.toObject(), isLiked };
+  });
+}
+
 // INDEX CONTROLLER
 module.exports.indexListing = async (req, res) => {
-  const allListings = await Listing.find({}).maxTimeMS(30000);
-  res.render("listings/index.ejs", { allListings });
+  const selectedCategory = normalizeCategory(req.query.category);
+  const listingQuery = selectedCategory ? { category: selectedCategory } : {};
+  let allListings = await Listing.find(listingQuery).populate("likes").maxTimeMS(30000);
+
+  if (selectedCategory) {
+    allListings = allListings.filter((listing) =>
+      matchesCategory(listing, selectedCategory)
+    );
+  }
+
+  allListings = addLikeState(allListings, req.user);
+  
+  res.render("listings/index.ejs", { allListings, selectedCategory });
 };
 
 //  FIXED NEW CONTROLLER
@@ -30,14 +57,16 @@ module.exports.ShowListing = async (req, res) => {
       path: "reviews",
       populate: { path: "author" },
     })
-    .populate("owner");
+    .populate("owner")
+    .populate("likes");
 
   if (!listing) {
-    req.flash("error", "Hotel doesn’t exist 😕🔍");
+    req.flash("error", "Hotel doesn't exist 😕🔍");
     return res.redirect("/listings");
   }
 
-  res.render("listings/show.ejs", { listing });
+  const isLiked = req.user && listing.likes.some(like => like._id.equals(req.user._id));
+  res.render("listings/show.ejs", { listing, isLiked });
 };
 
 // CREATE CONTROLLER
@@ -54,6 +83,7 @@ module.exports.createListing = async (req, res) => {
     }).send();
 
     const newListing = new Listing(req.body.listing);
+    newListing.category = inferListingCategory(req.body.listing);
     newListing.owner = req.user._id;
 
     // Image Upload
@@ -98,7 +128,11 @@ module.exports.editListing = async (req, res) => {
 // UPDATE CONTROLLER
 module.exports.updateListing = async (req, res) => {
   const { id } = req.params;
-  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  const updatedListingData = {
+    ...req.body.listing,
+    category: inferListingCategory(req.body.listing),
+  };
+  let listing = await Listing.findByIdAndUpdate(id, updatedListingData);
 
   if (req.file) {
     listing.image = { url: req.file.path, filename: req.file.filename };
@@ -124,7 +158,7 @@ module.exports.searchListing = async (req, res) => {
     return res.redirect("/listings");
   }
 
-  const allListings = await Listing.find({
+  let allListings = await Listing.find({
     $or: [
       { title: { $regex: q, $options: "i" } },
       { location: { $regex: q, $options: "i" } },
@@ -132,7 +166,9 @@ module.exports.searchListing = async (req, res) => {
     ]
   });
 
-  res.render("listings/index", { allListings, searchQuery: q });
+  allListings = addLikeState(allListings, req.user);
+
+  res.render("listings/index", { allListings, searchQuery: q, selectedCategory: null });
 };
 
 // BOOKING CONTROLLERS
@@ -198,6 +234,29 @@ module.exports.ownerBookings = async (req, res) => {
   res.render("bookings/ownerBookings.ejs", { bookings });
 };
 
+// Toggle Like
+module.exports.toggleLike = async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id).populate("likes");
+  const userId = req.user._id;
+  
+  const likeIndex = listing.likes.findIndex(like => like._id.equals(userId));
+  const wasLiked = likeIndex !== -1;
+  
+  if (wasLiked) {
+    listing.likes.splice(likeIndex, 1);
+  } else {
+    listing.likes.push(userId);
+  }
+  
+  await listing.save();
+  
+  res.json({ 
+    liked: !wasLiked, 
+    count: listing.likes.length 
+  });
+};
+
 // Delete Booking
 module.exports.deleteBooking = async (req, res) => {
   const { id } = req.params;
@@ -214,3 +273,4 @@ module.exports.deleteBooking = async (req, res) => {
   req.flash("success", "Booking deleted successfully");
   res.redirect("/bookings");
 };
+

@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container mt-5 mb-5">
+<div class="container listing-form-page mt-5 mb-5">
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
       <h2 class="text-center mb-4">Edit your Listing</h2>
@@ -9,7 +9,7 @@
         action="/listings/<%= listing._id %>?_method=PUT"
         method="POST"
         enctype="multipart/form-data"
-        class="shadow p-4 rounded bg-light"
+        class="shadow p-4 rounded bg-light listing-form-card"
       >
         <!-- Title -->
         <div class="mb-3">
@@ -99,7 +99,7 @@
         </div>
 
         <!-- Buttons -->
-        <div class="text-center">
+        <div class="text-center form-actions">
           <button type="submit" class="btn btn-primary px-4 py-2">Update</button>
           <a href="/listings/<%= listing._id %>" class="btn btn-secondary px-4 py-2 ms-2">Cancel</a>
         </div>

@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeraBharat</title>
+    <script>
+      (function () {
+        const storedTheme = localStorage.getItem("themeMode");
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = storedTheme || (systemPrefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <title>MeraBharat 2.o</title>
     <link rel="stylesheet" href="/css/style.css">
     
     <!-- Correct favicon (must be image, not zip) -->
@@ -27,8 +35,7 @@
 </head>
 <body>
    <%- include("../includes/navbar.ejs") %>
-    <div class="container-fluid px-3 px-md-5" 
-    style="padding-bottom: 10rem;">
+    <div class="container-fluid page-shell px-3 px-md-4 px-xl-5">
 
 
         <%- include("../includes/flash.ejs") %>

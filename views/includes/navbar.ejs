@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md border-bottom sticky-top bg-white">
+<nav class="navbar navbar-expand-md sticky-top">
   <div class="container-fluid">
 
     <!-- Logo -->
@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
       <!-- CENTER SEARCH BAR -->
-      <div class="mx-auto">
+      <div class="mx-auto navbar-search-wrap">
         <form class="d-flex search-form" role="search" method="GET" action="/listings/search">
           <input
             type="search"
@@ -31,13 +31,23 @@
       </div>
 
       <!-- RIGHT NAV LINKS -->
-      <div class="navbar-nav ms-auto align-items-center">
+      <div class="navbar-nav ms-auto align-items-center nav-actions">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
 <!-- <a class="nav-link" href="/listings/new">Airbnb your home</a> -->
 
 <% if (currentUser) { %>
  <a class="nav-link" href="/bookings">Booking Details</a>
 <% } %>
+
+        <button
+          type="button"
+          class="theme-toggle-btn"
+          id="themeToggleBtn"
+          aria-label="Toggle dark mode"
+          title="Toggle dark mode"
+        >
+          <i class="fa-solid fa-moon"></i>
+        </button>
 
 
 

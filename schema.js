@@ -1,5 +1,6 @@
 const joi=require("joi");
 const review = require("./models/review");
+const { LISTING_CATEGORIES } = require("./utils/listingCategories");
 
 module.exports.listingSchema=joi.object({
     listing: joi.object({
@@ -9,6 +10,7 @@ module.exports.listingSchema=joi.object({
    location:joi.string().required(),
    country:joi.string().required(),
    price:joi.number().required().min(0),
+   category:joi.string().valid(...LISTING_CATEGORIES).optional(),
     image:joi.string().allow("",null)
 }).required()
 });

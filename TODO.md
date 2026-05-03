@@ -1,8 +1,25 @@
-# MongoDB Connection Fix - Local Setup
-## Steps:
-- [ ] 1. Update app.js to use local MongoDB connection string
-- [ ] 2. Install MongoDB Community Server if not present (`winget install MongoDB.MongoDBAtlas` or download from mongodb.com)
-- [ ] 3. Start MongoDB service (`net start MongoDB` or `mongod`)
-- [ ] 4. Run `node app.js` and verify connection success
-- [ ] 5. Test app (visit http://localhost:8085)
+# Like Button Feature - ✅ COMPLETE
+
+**Status: Completed**
+
+## Completed Steps:
+- [x] Understand files (show.ejs fully implemented)
+- [x] 1. Updated controller/listing.js: indexListing now populates likes and adds `isLiked` per listing
+- [x] 2. Updated views/listings/index.ejs: Added compact heart like button + count + JS + styles
+- [x] 3. Verified Font Awesome 6.7.2 in boilerplate.ejs (icons work)
+- [x] 4. Backend fully functional (likes array, toggle route/controller)
+- [x] 5. Ready for testing
+
+**Features Added:**
+- Heart like button on individual listing show page (full UI/JS/backend)
+- Compact like button + count on listings index/grid view
+- Toggle like/unlike via AJAX (no page reload)
+- Disabled for non-logged users
+- Real-time count updates
+- Heart animations/hover effects
+- Backend stores user IDs in listing.likes[]
+
+**Test:** Login → /listings → Click hearts → Check DB + UI sync. View single listing → same.
+
+Task complete!
 

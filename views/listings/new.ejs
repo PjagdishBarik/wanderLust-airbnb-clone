@@ -1,9 +1,9 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container mt-5 mb-5">
+<div class="container listing-form-page mt-5 mb-5">
   <h1 class="text-center mb-4">Add New Listing</h1>
 
-  <form action="/listings" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded bg-light">
+  <form action="/listings" method="POST" enctype="multipart/form-data" class="shadow p-4 rounded bg-light listing-form-card">
     <div class="mb-3">
       <label for="title" class="form-label fw-bold">Title</label>
       <input type="text" class="form-control" id="title" name="listing[title]" required>
@@ -34,7 +34,7 @@
       <input type="file" class="form-control" id="image" name="listing[image]" accept="image/*">
     </div>
 
-    <div class="text-center">
+    <div class="text-center form-actions">
       <button type="submit" class="btn btn-success px-4 py-2">Add Listing</button>
       <a href="/listings" class="btn btn-secondary px-4 py-2 ms-2">Cancel</a>
     </div>

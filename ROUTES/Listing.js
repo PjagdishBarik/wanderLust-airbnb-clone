@@ -120,4 +120,7 @@ router.get("/:id/book", isLoggedIn, Wrapasync(listingController.bookListing));
 
 router.post("/:id/book", isLoggedIn, listingController.createBooking);
 
+// Like toggle
+router.post("/:id/like", isLoggedIn, Wrapasync(listingController.toggleLike));
+
 module.exports = router;

@@ -1,9 +1,29 @@
 
-  <% layout("/layouts/boilerplate") %>
+<% layout("/layouts/boilerplate") %>
+<%
+  const currentSelectedCategory =
+    typeof locals !== "undefined" && locals.selectedCategory
+      ? locals.selectedCategory
+      : null;
+  const categoryLabels = {
+    trending: "Trending",
+    bed: "Bed",
+    iconic: "Iconic",
+    mountain: "Mountain",
+    pool: "Pool",
+    camping: "Camping",
+    farms: "Farms",
+    snow: "Snow",
+    desert: "Desert"
+  };
+  const activeCategoryLabel = currentSelectedCategory
+    ? categoryLabels[currentSelectedCategory]
+    : null;
+%>
 <div id="filters">
-  
+  <div class="filter-group">
     <div class="filter">
-        <a href="/listings?category=trending">
+        <a href="/listings?category=trending" class="<%= currentSelectedCategory === 'trending' ? 'active-filter' : '' %>">
           <div>
             <i class="fa-solid fa-fire"></i>
         </div>
@@ -12,7 +32,7 @@
     </div>
 
      <div class="filter">
-       <a href="/listings?category=bed"> 
+       <a href="/listings?category=bed" class="<%= currentSelectedCategory === 'bed' ? 'active-filter' : '' %>"> 
         <div>
             <i class="fa-solid fa-bed"></i>
         </div>
@@ -20,7 +40,7 @@
     </div>
 
   <div class="filter">
-       <a href="/listings?category=iconic">
+       <a href="/listings?category=iconic" class="<%= currentSelectedCategory === 'iconic' ? 'active-filter' : '' %>">
          <div>
             <i class="fa-solid fa-mountain-city"></i>
         </div>
@@ -29,7 +49,7 @@
     </div>
 
     <div class="filter">
-       <a href="/listings?category=mountain">
+       <a href="/listings?category=mountain" class="<%= currentSelectedCategory === 'mountain' ? 'active-filter' : '' %>">
          <div>
             <i class="fa-solid fa-mountain"></i>
         </div>
@@ -38,7 +58,7 @@
     </div>
 
   <div class="filter">
-        <a href="/listings?category=pool">
+        <a href="/listings?category=pool" class="<%= currentSelectedCategory === 'pool' ? 'active-filter' : '' %>">
           <div>
             <i class="fa-solid fa-person-swimming"></i>
         </div>
@@ -47,7 +67,7 @@
     </div>
 
    <div class="filter">
-      <a href="/listings?category=camping">
+      <a href="/listings?category=camping" class="<%= currentSelectedCategory === 'camping' ? 'active-filter' : '' %>">
           <div>
        <i class="fa-solid fa-mountain-sun"></i>
         </div>
@@ -56,7 +76,7 @@
     </div>
 
     <div class="filter">
-      <a href="/listings?category=farms">
+      <a href="/listings?category=farms" class="<%= currentSelectedCategory === 'farms' ? 'active-filter' : '' %>">
           <div>
            <i class="fa-solid fa-cow"></i>
         </div>
@@ -65,7 +85,7 @@
     </div>
 
    <div class="filter">
-       <a href="/listings?category=snow">
+       <a href="/listings?category=snow" class="<%= currentSelectedCategory === 'snow' ? 'active-filter' : '' %>">
          <div>
           <i class="fa-solid fa-snowflake"></i>
         </div>
@@ -74,54 +94,55 @@
     </div>
 
   <div class="filter">
-     <a href="/listings?category=desert">
+     <a href="/listings?category=desert" class="<%= currentSelectedCategory === 'desert' ? 'active-filter' : '' %>">
          <div>
           <i class="fa-solid fa-ice-cream"></i>
         </div>
         <p>Desert</p>
      </a>
     </div>
+  </div>
  
-   <div class="tax-togle">
-    <div class="form-check-reverse form-switch">
-  <input class="form-check-input"
-   type="checkbox"
-    role="switch" 
-   id="switchCheckDefault">
-  <label class="form-check-label" 
-  for="switchCheckDefault">Disply  total  after taxes </label>
+   <div class="tax-toggle">
+    <div class="form-check form-switch m-0">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="switchCheckDefault"
+      >
+      <label class="form-check-label" for="switchCheckDefault">
+        Display total after taxes
+      </label>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-
-
 
     <!-- <form method="GET" action="/listings/new">
       <button>Create New Listing</button>
     </form> -->
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-3">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 listings-grid">
 
       <% if (allListings.length === 0) { %>
         
-        <div class="alert alert-info" role="alert">
-          No listings available.
+        <div class="alert alert-info col-12" role="alert">
+          <%= activeCategoryLabel ? `No hotels available in ${activeCategoryLabel}.` : "No listings available." %>
         </div>
       <% } %>
      <% for(let listing of allListings) { %>
-      <a href="/listings/<%= listing._id %>" class="listing-link">
+      <a href="/listings/<%= listing._id %>" class="listing-link col">
 
-    <div class="card col listing-card" >
+    <div class="card listing-card" >
   <% if (listing.image && listing.image.url) { %>
     <img src="<%= listing.image.url %>" 
     class="card-img-top"
-     alt="listing_image"
-      style="height: 20rem;">
+     alt="listing_image">
     
   <% } else { %>
     <img src="https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" class="card-img-top" alt="default_image">
     <div class="card-img-overlay"></div>
   <% } %>
-  <div class="card-body">
+<div class="card-body">
     <p class="card-text">
       <b><%= listing.title %></b><br>
    &#8377; 
@@ -138,23 +159,35 @@
  <% } %>
 </div>
 <script>
- let taxSwitch = document.getElementById('switchCheckDefault');
-taxSwitch.addEventListener("change", () => {
-  let prices = document.getElementsByClassName('price');
-  let taxInfos = document.getElementsByClassName('class-info');
+  const taxSwitch = document.getElementById("switchCheckDefault");
+  const prices = document.getElementsByClassName("price");
+  const taxInfos = document.getElementsByClassName("class-info");
 
-  for (let i = 0; i < prices.length; i++) {
-    let basePrice = parseFloat(prices[i].getAttribute('data-base'));
+  function updatePrices(showTax) {
+    for (let i = 0; i < prices.length; i++) {
+      const baseValue = prices[i].getAttribute("data-base");
+      const basePrice = Number(baseValue);
 
-    if (taxSwitch.checked) {
-      let withTax = Math.round(basePrice * 1.18);
-      prices[i].innerText = withTax.toLocaleString("en-IN");
-      taxInfos[i].style.display = "inline";
-    } else {
-      prices[i].innerText = basePrice.toLocaleString("en-IN");
-      taxInfos[i].style.display = "none";
+      if (!Number.isFinite(basePrice)) {
+        prices[i].innerText = "N/A";
+        if (taxInfos[i]) taxInfos[i].style.display = "none";
+        continue;
+      }
+
+      if (showTax) {
+        const withTax = Math.round(basePrice * 1.18);
+        prices[i].innerText = withTax.toLocaleString("en-IN");
+        if (taxInfos[i]) taxInfos[i].style.display = "inline";
+      } else {
+        prices[i].innerText = basePrice.toLocaleString("en-IN");
+        if (taxInfos[i]) taxInfos[i].style.display = "none";
+      }
     }
   }
-});
+
+  if (taxSwitch) {
+    taxSwitch.addEventListener("change", () => updatePrices(taxSwitch.checked));
+    updatePrices(taxSwitch.checked);
+  }
 
 </script>

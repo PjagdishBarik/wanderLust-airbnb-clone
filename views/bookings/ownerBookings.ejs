@@ -22,8 +22,10 @@
                 <strong>Guests:</strong> <%= booking.guests %><br>
                 <strong>Payment:</strong> <%= booking.paymentMethod %>
               </p>
-              <a href="/listings/<%= booking.listing._id %>" class="btn btn-primary">View Listing</a>
-              <a href="/bookings/<%= booking._id %>" class="btn btn-secondary">Booking Details</a>
+              <div class="booking-card-actions">
+                <a href="/listings/<%= booking.listing._id %>" class="btn btn-primary">View Listing</a>
+                <a href="/bookings/<%= booking._id %>" class="btn btn-secondary">Booking Details</a>
+              </div>
             </div>
           </div>
         </div>

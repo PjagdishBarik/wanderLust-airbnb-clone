@@ -19,7 +19,7 @@
                 <p class="card-text">Check-out: <%= booking.checkOut.toDateString() %></p>
                 <p class="card-text">Guests: <%= booking.guests %></p>
                 <p class="card-text">Payment Method: <%= booking.paymentMethod %></p>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between booking-card-actions">
                   <a href="/listings/<%= booking.listing._id %>" class="btn btn-primary">View Listing</a>
                   <a href="/bookings/<%= booking._id %>" class="btn btn-info">Booking Details</a>
                   <form method="POST" action="/bookings/<%= booking._id %>?_method=DELETE" onsubmit="return confirm('Are you sure you want to delete this booking?')">
